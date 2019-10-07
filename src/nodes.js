@@ -106,6 +106,8 @@ export const ProductNode = imageArgs =>
         )
       }));
 
+      console.log(variants);
+
       node.variants___NODE = variants.map(variant =>
         generateNodeId(PRODUCT_VARIANT, variant.id)
       );
