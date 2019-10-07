@@ -99,14 +99,7 @@ export const CommentNode = _imageArgs => createNodeFactory(COMMENT);
 export const ProductNode = imageArgs =>
   createNodeFactory(PRODUCT, async node => {
     if (node.variants) {
-      const variants = node.variants.edges.map(edge => ({
-        ...edge.node,
-        presentmentPrices: edge.node.presentmentPrices.edges.map(
-          edge => edge.node
-        )
-      }));
-
-      console.log(variants);
+      const variants = node.variants.edges.map(edge => edge.node);
 
       node.variants___NODE = variants.map(variant =>
         generateNodeId(PRODUCT_VARIANT, variant.id)
@@ -162,8 +155,11 @@ export const ProductVariantNode = imageArgs =>
         },
         imageArgs
       );
+    const presentmentPrices = node.presentmentPrices.edges.map(
+      edge => edge.node
+    );
 
-    return node;
+    return { ...node, presentmentPrices };
   });
 
 export const ShopPolicyNode = createNodeFactory(SHOP_POLICY);

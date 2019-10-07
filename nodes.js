@@ -103,10 +103,7 @@ exports.CommentNode = CommentNode;
 
 const ProductNode = imageArgs => createNodeFactory(_constants.PRODUCT, async node => {
   if (node.variants) {
-    const variants = node.variants.edges.map(edge => ({ ...edge.node,
-      presentmentPrices: edge.node.presentmentPrices.edges.map(edge => edge.node)
-    }));
-    console.log(variants);
+    const variants = node.variants.edges.map(edge => edge.node);
     node.variants___NODE = variants.map(variant => generateNodeId(_constants.PRODUCT_VARIANT, variant.id));
     delete node.variants;
   }
@@ -147,7 +144,10 @@ const ProductVariantNode = imageArgs => createNodeFactory(_constants.PRODUCT_VAR
     id: node.image.id,
     url: node.image.originalSrc && node.image.originalSrc.split(`?`)[0]
   }, imageArgs);
-  return node;
+  const presentmentPrices = node.presentmentPrices.edges.map(edge => edge.node);
+  return { ...node,
+    presentmentPrices
+  };
 });
 
 exports.ProductVariantNode = ProductVariantNode;
