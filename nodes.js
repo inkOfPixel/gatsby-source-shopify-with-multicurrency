@@ -106,6 +106,7 @@ const ProductNode = imageArgs => createNodeFactory(_constants.PRODUCT, async nod
     const variants = node.variants.edges.map(edge => ({ ...edge.node,
       presentmentPrices: edge.node.presentmentPrices.edges.map(edge => edge.node)
     }));
+    console.log(variants);
     node.variants___NODE = variants.map(variant => generateNodeId(_constants.PRODUCT_VARIANT, variant.id));
     delete node.variants;
   }
